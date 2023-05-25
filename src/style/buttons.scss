@@ -1,0 +1,37 @@
+.btn {
+    width: 100px;
+    height: 40px;
+    border: none;
+    color: #fff;
+    background-color: #5E97F3;
+    position: absolute;
+    bottom: 65px;
+    right: 100px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    cursor: pointer;
+    &:hover {
+        opacity: .7;
+    }
+    &-back{
+        background-color: #C1CFE0;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: center;
+        width: 100px;
+        height: 40px;
+        border: none;
+        position: absolute;
+        bottom: 65px;
+        right: 300px;
+        color: #FFFFFF;
+        &:hover {
+            opacity: 0.6;
+        }
+    }
+    &-finish {
+        background: #4EE4A5;
+    }
+}

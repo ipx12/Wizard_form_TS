@@ -1,0 +1,50 @@
+.profile {
+    width: 100%;
+    min-height: 540px;
+    background-color: rgba(231, 240, 255, .2);
+    padding: 65px 100px;
+    position: relative;
+    form {
+        display: flex;
+        justify-content: space-between;
+    }
+    input {
+        width: 300px;
+        height: 40px;
+        border: 1px solid #A1C4FF;
+        outline: none;
+        padding: 12px 10px;
+    }
+    .label {
+        margin-top: 24px;
+        display: flex;
+        justify-content: space-between;
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 18px;
+        color: #657C9A;
+        margin-bottom: 5px;
+    }
+    .radio{
+        width: 17px;
+        height: 17px;
+        margin-right: 5px;
+
+    }
+    .radio-group{
+        display: flex;
+    }
+    .margin-right{
+        margin-right: 40px;
+    }
+    .datepicker {
+        input, .label {
+            width: 192px;
+        }
+    }
+    .absolute {
+        position: absolute;
+    }
+}

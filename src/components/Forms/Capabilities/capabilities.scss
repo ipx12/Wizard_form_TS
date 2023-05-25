@@ -1,0 +1,124 @@
+.capabilities {
+    width: 100%;
+    min-height: 655px;
+    background-color: rgba(231, 240, 255, .2);
+    position: relative;
+    form {
+        padding: 65px 100px;
+        display: flex;
+        justify-content: space-between;
+    }
+    .column {
+        width: 300px;
+    }
+    .select {
+        &__menu {
+            // height: 132px;
+            color: #9BB0CB;
+            ::-webkit-scrollbar {
+                width: 4px;
+            }
+              
+            // ::-webkit-scrollbar-track {
+            //     // background: orange;
+            //         /* цвет зоны отслеживания */
+            // }
+              
+            ::-webkit-scrollbar-thumb {
+                background-color: #E7F0FF;    /* цвет бегунка */
+                border-radius: 20px;  
+                // margin-right: 2px;     /* округлось бегунка */
+                // border: 3px solid orange;  /* отступ вокруг бегунка */
+            }
+            &-list {
+                height: 132px;
+                font-family: 'Roboto';
+                font-style: normal;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 16px;
+            }
+        }
+        &__clear {
+            &-indicator {
+                position: absolute;
+                right: -35px;
+                top: 50%;
+                transform: translateY(-50%);
+                // 
+            }
+        }
+        &__multi {
+            &-value {
+                color: #9BB0CB;
+                background-color: #E7F0FF;
+                &__label {
+                    color: #9BB0CB;
+                }
+            }
+        }
+        &__indicators {
+            svg {
+                fill: #9BB0CB;
+            }
+        }
+        &__indicator {
+            &-separator {
+                display: none;
+            }
+            // &__clear {
+            //     &-indicator {
+                  
+            //     }
+            // }
+        }
+        &__control {
+            width: 300px;
+            min-height: 40px;
+            border: 1px solid #C1CFE0;
+            outline: none;
+            appearance: none;
+            outline: none;
+        }
+    }
+    .label {
+        font-family: 'Roboto';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        color: #657C9A;
+        margin-bottom: 5px;
+        &-mt {
+            margin-top: 180px;
+        }
+    }
+    textarea {
+        width: 300px;
+        height: 100px;
+        padding: 7px 10px;
+        border: 1px solid #C1CFE0;
+        outline: none;
+        resize: none;
+    }
+    input[type="checkbox"]{
+        -webkit-appearance: initial;
+        appearance: initial;
+        border: none;
+        position: absolute;
+        width: 13px;
+        height: 13px;
+        border: 1px solid #C1CFE0;
+    }
+    input[type="checkbox"]:checked {
+        background: #4E86E4;
+        border: 3px solid #C1CFE0;
+    }
+    .checkbox {
+        margin-top: 10px;
+        display: flex;
+        label {
+            margin-left: 20px;
+        }
+    }
+}
