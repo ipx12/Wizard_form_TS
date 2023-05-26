@@ -41,7 +41,6 @@ const AccauntForm = () => {
 
     const { 
         register, 
-        watch,
         handleSubmit, 
         formState: {errors}
     } = useForm<IFormData>({

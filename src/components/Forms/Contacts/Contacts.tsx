@@ -102,7 +102,7 @@ const ContactsFrom = () => {
     });
 
     const onSubmit = (formData: ContactsValue) => {
-        formsSet('capabilities', formData)
+        formsSet('contacts', formData)
         dispatch(changeActiveForm('capabilities'))
         console.log(formData)
     };

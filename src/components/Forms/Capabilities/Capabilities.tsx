@@ -1,6 +1,8 @@
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
+import { useNavigate } from 'react-router-dom';
+
 import { useForm, Controller } from 'react-hook-form';
 import Select, { MultiValue } from 'react-select';
 
@@ -62,6 +64,9 @@ const schema = yup.object({
 
 const CapabilitiesFrom = () => {
 
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     const {
         control, 
         handleSubmit,
@@ -71,10 +76,12 @@ const CapabilitiesFrom = () => {
         resolver: yupResolver(schema)
     })
 
-    const onSubmit = (data: any) => {
-
-        console.log(data);
+    const onSubmit = (formData: ICapabilitiesFrom) => {
+        formsSet('capabilities', formData)
+        dispatch(changeActiveForm('accaunt'))
+        console.log(formData);
         control._reset()
+        navigate('/')
     };
 
     return (
