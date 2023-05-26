@@ -4,7 +4,13 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form';
 import Select, { MultiValue } from 'react-select';
 
+import { formsSet } from '../../../store/idbStore';
+import { useAppDispatch } from '../../../store';
+import { changeActiveForm } from '../../Pages/AddingNewUser/addingNewUserSlice';
+
+
 import './capabilities.scss';
+import { useState } from 'react';
 
 interface IOptions {
     value: string;
@@ -14,15 +20,10 @@ interface IOptions {
 interface ICapabilitiesFrom {
     skills: IOptions[] | [];
     aditional: string;
-    art: boolean | string;
-    gitar: boolean | string;
-    nothing: boolean | string;
-    play: boolean | string;
-    sport: boolean | string;
-    wtf: boolean | string;
+    hobbies: string[];
 }
 
-const options: IOptions[] = [
+const languageOptions: IOptions[] = [
     { value: 'HTML', label: 'HTML' },
     { value: 'CSS', label: 'CSS' },
     { value: 'Javascript', label: 'Javascript' },
@@ -41,6 +42,15 @@ const options: IOptions[] = [
     { value: 'Docker', label: 'Docker' },
     { value: 'AWS Lambda', label: 'AWS Lambda' },
     { value: 'Firebase', label: 'Firebase' },
+]
+
+const hobbiesOptions: IOptions[] = [
+    {value: 'Art', label: 'Art'},
+    {value: 'Sport, fitness, aerobica and staff like that', label: 'Sport, fitness, aerobica and staff like that'},
+    {value: 'I just want to play games, I’m not living in this life', label: 'I just want to play games, I’m not living in this life'},
+    {value: 'I’m a female... I’m doing nothing. Every day.', label: 'I’m a female... I’m doing nothing. Every day.'},
+    {value: 'Guitar, guitar and guitar again. I’m fall in love with it.', label: 'Guitar, guitar and guitar again. I’m fall in love with it.'},
+    {value: 'WTF is “hobbies”???', label: 'WTF is “hobbies”???'},
 ]
 
 const schema = yup.object({
@@ -62,7 +72,9 @@ const CapabilitiesFrom = () => {
     })
 
     const onSubmit = (data: any) => {
+
         console.log(data);
+        control._reset()
     };
 
     return (
@@ -81,7 +93,7 @@ const CapabilitiesFrom = () => {
                         <Select
                             className={errors.skills ? 'basic-multi-select red-border' : 'basic-multi-select'}
                             classNamePrefix={errors.skills ? 'select red-border' : 'select'}
-                            options={options}
+                            options={languageOptions}
                             value={value}
                             isMulti
                             onChange={(selectedOptions) =>
@@ -100,34 +112,17 @@ const CapabilitiesFrom = () => {
                         placeholder='Guitar, guitar and guitar again. I’m fall in love with it.'
                     >
                     </textarea>
+                    {errors.aditional ? <div className='error'>{errors.aditional.message} </div>: null}
                 </div>
                 <div className="column">
                     <div className='label'>My hobbies</div>
                     <div role="group" aria-labelledby="checkbox-group">
-                        <div className="checkbox">
-                            <input type="checkbox" value="Art" id="art" {...register("art")} />
-                            <label className='label' htmlFor="art">Art</label>
-                        </div>
-                        <div className="checkbox">
-                            <input type="checkbox" value="Sport, fitness, aerobica and staff like that" id="sport" {...register("sport")}  />
-                            <label className='label' htmlFor="sport">Sport, fitness, aerobica and staff like that</label>
-                        </div>
-                        <div className="checkbox">
-                            <input type="checkbox" value="I just want to play games, I’m not living in this life" id="games" {...register("play")}  />
-                            <label className='label' htmlFor="games">I just want to play games, I’m not living in this life</label>
-                        </div>
-                        <div className="checkbox">
-                            <input type="checkbox" value="I’m a female... I’m doing nothing. Every day." id="nothing" {...register("nothing")}  />
-                            <label className='label' htmlFor="nothing">I’m a female... I’m doing nothing. Every day.</label>
-                        </div>
-                        <div className="checkbox">
-                            <input type="checkbox" value="Guitar, guitar and guitar again. I’m fall in love with it." id="guitar" {...register("gitar")}  />
-                            <label className='label' htmlFor="guitar">Guitar, guitar and guitar again. I’m fall in love with it.</label>
-                        </div>
-                        <div className="checkbox">
-                            <input type="checkbox" value="WTF is “hobbies”???" id="wtf" {...register("wtf")}  />
-                            <label className='label' htmlFor="wtf">WTF is “hobbies”???</label>
-                        </div>
+                        {hobbiesOptions.map((option) => (
+                            <div className="checkbox" key={option.value}>
+                                <input type="checkbox" value={option.value} id={option.value} {...control.register('hobbies')}  />
+                                <label className='label' htmlFor={option.value}>{option.value}</label>
+                            </div>
+                        ))}
                     </div>
                     <button 
                         type='button'
