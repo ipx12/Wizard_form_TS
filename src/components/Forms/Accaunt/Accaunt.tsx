@@ -1,6 +1,5 @@
 import avatar from '../../../resources/img/avatar.svg'
-import TextInput from '../../TextInput/TextInput';
-import {useState, useEffect} from 'react'
+import {useState, useId} from 'react'
 
 import { formsSet } from '../../../store/idbStore';
 
@@ -32,7 +31,10 @@ const SUPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"]
 
 const AccauntForm = () => {
 
-    const dispatch = useAppDispatch()
+    const dispatch = useAppDispatch();
+    const id = useId();
+
+
 
     const { 
         register, 
@@ -77,9 +79,10 @@ const AccauntForm = () => {
     }
 
     const onSubmit = (formData: IAccauntFormValues) => {
-        formsSet('accaunt', formData)
-        dispatch(changeActiveForm('profile'))
-        console.log(formData)
+        setValue('id', id);
+        formsSet('accaunt', formData);
+        dispatch(changeActiveForm('profile'));
+        console.log(formData);
     }
 
 	return (

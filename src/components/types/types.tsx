@@ -3,6 +3,7 @@ export interface IAccauntFormValues {
     password: string;
     repeatPassword: string;
     photo: string;
+    id: string;
 }
 
 export interface IProfileFormValues {

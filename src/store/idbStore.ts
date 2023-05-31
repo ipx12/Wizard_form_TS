@@ -1,42 +1,48 @@
 import { openDB, DBSchema } from "idb";
+import { IUser } from "../components/types/types";
 
-interface MyDB extends DBSchema {
+interface FormsDB extends DBSchema {
 	forms: {
 		key: string;
-		value: {
-			activeFromName: string;
-		};
+		value: IUser;
 	};
 }
 
-const dbPromise = openDB<MyDB>("forms-store", 1, {
+const formPromise = openDB<FormsDB>("forms-store", 1, {
 	upgrade(db) {
 		db.createObjectStore("forms");
 	},
 });
 
 export async function formsGet(key: any) {
-	return (await dbPromise).get("forms", key);
+	return (await formPromise).get("forms", key);
 }
 export async function formsSet(key: any, val: any) {
-	return (await dbPromise).put("forms", val, key);
+	return (await formPromise).put("forms", val, key);
 }
 export async function formsDel(key: any) {
-	return (await dbPromise).delete("forms", key);
+	return (await formPromise).delete("forms", key);
 }
 export async function formsClear() {
-	return (await dbPromise).clear("forms");
+	return (await formPromise).clear("forms");
 }
 export async function formsKeys() {
-	return (await dbPromise).getAllKeys("forms");
+	return (await formPromise).getAllKeys("forms");
 }
 export async function formsValues() {
-	return (await dbPromise).getAll("forms");
+	return (await formPromise).getAll("forms");
 }
 
 //---------------- Users store
 
-const userPromise = openDB("users-store", 1, {
+interface UsersDB extends DBSchema {
+	users: {
+		key: string;
+		value: IUser;
+	};
+}
+
+const userPromise = openDB<UsersDB>("users-store", 1, {
 	upgrade(db) {
 		db.createObjectStore("users");
 	},
@@ -45,7 +51,7 @@ const userPromise = openDB("users-store", 1, {
 export async function usersGet(key: any) {
 	return (await userPromise).get("users", key);
 }
-export async function usersSet(key: any, val: any) {
+export async function usersSet(key: any, val: IUser) {
 	return (await userPromise).put("users", val, key);
 }
 export async function usersDel(key: any) {

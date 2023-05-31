@@ -7,9 +7,7 @@ import {
 	PayloadAction,
 } from "@reduxjs/toolkit";
 import { RootState } from "../../../store";
-import { formsValues } from "../../../store/idbStore";
-
-interface addingNewUserState {}
+import { formsValues, usersSet, usersValues } from "../../../store/idbStore";
 
 interface IInitialState {
 	activeForm: FormsType;
@@ -31,6 +29,10 @@ export const getAllFormsValues = createAsyncThunk("users/getAllForms", () => {
 	return formsValues();
 });
 
+export const getAllUsers = createAsyncThunk("users/getAllUsers", () => {
+	return usersValues();
+});
+
 const addingNewUserSlice = createSlice({
 	name: "users",
 	initialState: initialState,
@@ -46,12 +48,23 @@ const addingNewUserSlice = createSlice({
 			})
 			.addCase(getAllFormsValues.fulfilled, (state, action) => {
 				state.formLoadingStatus = "idle";
-				// userAdapter.setOne(state, createUser(action.payload));
-				// usersSet
+				userAdapter.setOne(state, createUser(action.payload));
+				usersSet(action.payload[0].id, createUser(action.payload));
 			})
 			.addCase(getAllFormsValues.rejected, (state) => {
 				state.formLoadingStatus = "error";
-			});
+			})
+			.addCase(getAllUsers.pending, (state) => {
+				state.usersLoadingStatus = "loading";
+			})
+			.addCase(getAllUsers.fulfilled, (state, action) => {
+				state.usersLoadingStatus = "idle";
+				userAdapter.addMany(state, action.payload);
+			})
+			.addCase(getAllUsers.rejected, (state) => {
+				state.usersLoadingStatus = "error";
+			})
+			.addDefaultCase(() => {});
 	},
 });
 
