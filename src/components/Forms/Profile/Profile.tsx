@@ -7,20 +7,16 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import DatePicker from "react-datepicker";
 import 'react-datepicker/dist/react-datepicker.css';
 
+import { IProfileFormValues } from '../../types/types';
+
 import { formsSet } from '../../../store/idbStore';
 import { useAppDispatch } from '../../../store';
 
-import './profile.scss';
 import { changeActiveForm } from '../../Pages/AddingNewUser/addingNewUserSlice';
 
-type ProfileValues = {
-    firstName: string;
-    lastName: string;
-    email: string;
-    adress: string;
-    gander: string;
-    birthDay: number; 
-}
+import './profile.scss';
+
+
 
 const ageCheck = (age: number) => {
 	return 1000 * 60 * 60 * 24 * 365 * age
@@ -51,7 +47,7 @@ const schema = yup.object({
 
 const ProfileForm = () => {
 
-    const [date, setDate] = useState<Date>();
+    const [date, setDate] = useState<Date | null>();
 
     const dispatch = useAppDispatch()
 
@@ -60,11 +56,11 @@ const ProfileForm = () => {
         handleSubmit,
         setValue,
         formState: {errors}
-    } = useForm<ProfileValues>({
+    } = useForm<IProfileFormValues>({
             resolver: yupResolver(schema)
     });
 
-    const onSubmit = (formData: ProfileValues) => {
+    const onSubmit = (formData: IProfileFormValues) => {
         formsSet('profile', formData);
         dispatch(changeActiveForm('contacts'));
         console.log(formData)
@@ -113,9 +109,12 @@ const ProfileForm = () => {
                                 placeholderText='DD/MM/YYY'
                                 className={errors.birthDay ? 'red-border' : ''}
                                 calendarClassName='absolute'
-                                onChange={(value: Date) => {
-                                    setValue('birthDay', value.getTime())
-                                    setDate(value)
+                                onChange={(value: Date | null) => {
+                                    if (value) {
+                                        setValue('birthDay', value.getTime())
+                                        setDate(value)
+                                    }
+
                                     // setFieldValue('birthday', `${Date.parse(value)}`)
                                 }}
                                 // name="birthday"

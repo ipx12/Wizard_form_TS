@@ -4,6 +4,8 @@ import {useState, useEffect} from 'react'
 
 import { formsSet } from '../../../store/idbStore';
 
+import { IAccauntFormValues } from '../../types/types';
+
 import './accaunt.scss'
 
 import { useForm } from 'react-hook-form';
@@ -11,13 +13,6 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { changeActiveForm } from '../../Pages/AddingNewUser/addingNewUserSlice';
 import { useAppDispatch } from '../../../store';
-
-interface IFormData {
-    userName: string;
-    password: string;
-    repeatPassword: string;
-    photo: FileList;
-}
 
 const schema = yup.object().shape({
     userName: yup.string()
@@ -42,8 +37,9 @@ const AccauntForm = () => {
     const { 
         register, 
         handleSubmit, 
-        formState: {errors}
-    } = useForm<IFormData>({
+        formState: {errors},
+        setValue
+    } = useForm<IAccauntFormValues>({
             resolver: yupResolver(schema)
     });
 
@@ -74,12 +70,13 @@ const AccauntForm = () => {
             setImageSizeError(imageSizeCheck(fileRef.size))
             setImageFormatError(imageFormatCheck(fileType))
             setImage(`data:${fileType};base64,${btoa(ev.target.result)}`)
+            setValue('photo', `data:${fileType};base64,${btoa(ev.target.result)}`)
             return `data:${fileType};base64,${btoa(ev.target.result)}`
           }
         }
     }
 
-    const onSubmit = (formData: IFormData) => {
+    const onSubmit = (formData: IAccauntFormValues) => {
         formsSet('accaunt', formData)
         dispatch(changeActiveForm('profile'))
         console.log(formData)

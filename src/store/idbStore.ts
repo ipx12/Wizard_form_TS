@@ -33,3 +33,30 @@ export async function formsKeys() {
 export async function formsValues() {
 	return (await dbPromise).getAll("forms");
 }
+
+//---------------- Users store
+
+const userPromise = openDB("users-store", 1, {
+	upgrade(db) {
+		db.createObjectStore("users");
+	},
+});
+
+export async function usersGet(key: any) {
+	return (await userPromise).get("users", key);
+}
+export async function usersSet(key: any, val: any) {
+	return (await userPromise).put("users", val, key);
+}
+export async function usersDel(key: any) {
+	return (await userPromise).delete("users", key);
+}
+export async function usersClear() {
+	return (await userPromise).clear("users");
+}
+export async function usersKeys() {
+	return (await userPromise).getAllKeys("users");
+}
+export async function usersValues() {
+	return (await userPromise).getAll("users");
+}

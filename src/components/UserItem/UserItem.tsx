@@ -9,14 +9,10 @@ import edit from '../../resources/icons/userList/Edit.png'
 import close from '../../resources/icons/userList/Close.png'
 import closeRed from '../../resources/icons/userList/close_red.png'
 
+import { IUser } from "../types/types";
+
 interface IUserItemProps {
-    user: {
-        id: string;
-        photo?: string;
-        company: string;
-        phone1: string;
-        email: string;
-    }
+    user: IUser
 }
 
 const UserItem: FC<IUserItemProps>  = (userDate) => {
@@ -47,23 +43,24 @@ const UserItem: FC<IUserItemProps>  = (userDate) => {
         <div className={userClass}>
             <div className="wrap">
                 <div className='table-photo'>
-                    <img src={user.photo ? user.photo : photo} alt="Avatar" />
+                    {/* <img src={user.photo ? user.photo : photo} alt="Avatar" /> */}
+                    <img src={photo} alt="Avatar" />
                 </div>
                 <div className="table__user">
-                    <div className="table__user-name">{'user.firstName'}</div>
-                    <div className="table__user-title">{'user.userName'}</div>
+                    <div className="table__user-name">{user.firstName}</div>
+                    <div className="table__user-title">{user.lastName}</div>
                 </div>
             </div>
             <div className="wrap">
                 {user.company}
             </div>
             <div className="wrap">
-                {user.phone1 !== '' ? user.phone1 : user.email}
+                {user.email}
             </div>
             <div className="wrap upd">
                 <div>{
                     // lastUpdateTime(new Date().getTime().toString())
-                    '15'
+                    '123'
                 }</div>
                 <div 
                     className="btns"

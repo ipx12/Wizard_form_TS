@@ -10,28 +10,29 @@ import { IUser } from '../../types/types';
 
 const ListOfUsers = () => {
 
+	const testUser: IUser = {
+		// lastUpdate: new Date(),
+		userName: 'Aloha',
+		password: '111',
+		repeatPassword: '111',
+		photo: '2',
+		firstName: 'Alex',
+		lastName: 'Smith',
+		email: 'ada@dasd.we',
+		adress: '12131231',
+		gander: 'male',
+		birthDay: 23123123123,
+		company: 'Volvo',
+		language: null,
+		skills: [],
+		hobbies: [],
+	}
+
     const [users, setUsers] = useState<IUser[]>([])
 
     useEffect(() => {
 		setUsers([
-			{
-				id: 'string',
-				company: 'string',
-				phone1: 'string',
-				email: 'string',
-			},
-			{
-				id: '123',
-				company: 'sda',
-				phone1: '1222',
-				email: '@qweqwe',
-			},
-			{
-				id: '2',
-				company: 'string',
-				phone1: 'string',
-				email: 'string',
-			},
+			testUser
 		])
 	},[])
 
@@ -41,7 +42,7 @@ const ListOfUsers = () => {
             <h2 className="pageName">List of users</h2>
             <List 
 				items={users}
-				renderItem={(user: IUser) => <UserItem user={user} key={user.id}/>}
+				renderItem={(user: IUser) => <UserItem user={user} key={user.userName}/>}
 			/>
         </>
     );

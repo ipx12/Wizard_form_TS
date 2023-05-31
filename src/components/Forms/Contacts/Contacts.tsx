@@ -11,7 +11,7 @@ import InputMask from 'react-input-mask';
 
 import { formsSet } from '../../../store/idbStore';
 
-import TextInput from '../../TextInput/TextInput';
+import { IContactsFormValue } from '../../types/types';
 
 import './contacts.scss';
 
@@ -40,22 +40,6 @@ const options = {
     "pa": "Punjabi",
     "th": "Thai",
     "ko": "Korean"
-}
-
-type LangugeSelect = {
-    value: string;
-    label: string
-}
-
-interface ContactsValue {
-    company: string;
-    github: string;
-    facebook: string;
-    fax: string;
-    phone1?: string;
-    phone2?: string;
-    phone3?: string;
-    language: LangugeSelect | null
 }
 
 type OptionsType = {
@@ -97,11 +81,11 @@ const ContactsFrom = () => {
         setValue,
         register,
         formState: {errors}
-    } = useForm<ContactsValue>({
+    } = useForm<IContactsFormValue>({
         resolver: yupResolver(schema)
     });
 
-    const onSubmit = (formData: ContactsValue) => {
+    const onSubmit = (formData: IContactsFormValue) => {
         formsSet('contacts', formData)
         dispatch(changeActiveForm('capabilities'))
         console.log(formData)

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import './usersList.scss'
-import Header from '../Header/Header';
 
 interface ListProps<T> {
     items: T[];

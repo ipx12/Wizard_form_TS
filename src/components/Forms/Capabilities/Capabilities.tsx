@@ -8,24 +8,15 @@ import Select, { MultiValue } from 'react-select';
 
 import { formsSet } from '../../../store/idbStore';
 import { useAppDispatch } from '../../../store';
-import { changeActiveForm } from '../../Pages/AddingNewUser/addingNewUserSlice';
+import { changeActiveForm, getAllFormsValues } from '../../Pages/AddingNewUser/addingNewUserSlice';
 
+import { ICapabilitiesFromValue } from '../../types/types';
+import { StandartObjectOptions } from '../../types/types';
 
 import './capabilities.scss';
-import { useState } from 'react';
 
-interface IOptions {
-    value: string;
-    label: string
-}
 
-interface ICapabilitiesFrom {
-    skills: IOptions[] | [];
-    aditional: string;
-    hobbies: string[];
-}
-
-const languageOptions: IOptions[] = [
+const languageOptions: StandartObjectOptions[] = [
     { value: 'HTML', label: 'HTML' },
     { value: 'CSS', label: 'CSS' },
     { value: 'Javascript', label: 'Javascript' },
@@ -46,7 +37,7 @@ const languageOptions: IOptions[] = [
     { value: 'Firebase', label: 'Firebase' },
 ]
 
-const hobbiesOptions: IOptions[] = [
+const hobbiesOptions: StandartObjectOptions[] = [
     {value: 'Art', label: 'Art'},
     {value: 'Sport, fitness, aerobica and staff like that', label: 'Sport, fitness, aerobica and staff like that'},
     {value: 'I just want to play games, I’m not living in this life', label: 'I just want to play games, I’m not living in this life'},
@@ -72,11 +63,12 @@ const CapabilitiesFrom = () => {
         handleSubmit,
         register,
         formState: {errors}
-    } = useForm<ICapabilitiesFrom>({
+    } = useForm<ICapabilitiesFromValue>({
         resolver: yupResolver(schema)
     })
 
-    const onSubmit = (formData: ICapabilitiesFrom) => {
+    const onSubmit = (formData: ICapabilitiesFromValue) => {
+        dispatch(getAllFormsValues());
         formsSet('capabilities', formData)
         dispatch(changeActiveForm('accaunt'))
         console.log(formData);
