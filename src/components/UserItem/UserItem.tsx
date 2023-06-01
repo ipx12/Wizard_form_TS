@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 // import { Link } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
 
+import { onDeleteUser } from "../Pages/AddingNewUser/addingNewUserSlice";
+
 // import { onDeleteUser } from "../pages/AddingNewUser/addingNewUserSlice";
 import photo from '../../resources/img/Ellipse.png';
 import edit from '../../resources/icons/userList/Edit.png'
@@ -63,8 +65,7 @@ const UserItem: FC<IUserItemProps>  = (userDate) => {
                     '123'
                 }</div>
                 <div 
-                    className="btns"
-                    // style={deleteConfirm ? {display: 'none'}: null}
+                    className={deleteConfirm ? 'btns display-none' : 'btns'}
                 >
                     <div className="btns-edit">
                         {/* <Link to={`/Wizard-form/userdata/${user.id}`}> */}
@@ -78,17 +79,21 @@ const UserItem: FC<IUserItemProps>  = (userDate) => {
                     </div>
                 </div>
             </div>
-            {/* <div className="confirmed" style={deleteConfirm ? null: {display: 'none'}}>
-                <div className="confirmed-close" onClick={() => setDeleteConfirm(!deleteConfirm)}>
+            <div 
+                className={deleteConfirm ? 'confirmed' : 'confirmed display-none'}
+                onClick={() => setDeleteConfirm(!deleteConfirm)}
+            >
+                <div className="confirmed-close">
                     <img src={closeRed} alt="close" />
                 </div>
                 <CSSTransition in={deleteConfirm} timeout={300} classNames='confirm-node'>
                     <div className="confirmed-delete"
-                            onClick={() => dispatch(onDeleteUser(user.id))}>
+                            onClick={() => dispatch(onDeleteUser(user.id))}
+                            >
                         delete
                     </div>
                 </CSSTransition>
-            </div> */}
+            </div>
         </div>
     )
 }

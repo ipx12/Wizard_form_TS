@@ -90,8 +90,8 @@ const CapabilitiesFrom = () => {
                         defaultValue={[]}
                         render={({ field: { onChange, value } }) => (
                         <Select
-                            className={errors.skills ? 'basic-multi-select red-border' : 'basic-multi-select'}
-                            classNamePrefix={errors.skills ? 'select red-border' : 'select'}
+                            className={'basic-multi-select'}
+                            classNamePrefix={'select'}
                             options={languageOptions}
                             value={value}
                             isMulti

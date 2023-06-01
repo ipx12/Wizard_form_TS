@@ -7,7 +7,12 @@ import {
 	PayloadAction,
 } from "@reduxjs/toolkit";
 import { RootState } from "../../../store";
-import { formsValues, usersSet, usersValues } from "../../../store/idbStore";
+import {
+	formsValues,
+	usersDel,
+	usersSet,
+	usersValues,
+} from "../../../store/idbStore";
 
 interface IInitialState {
 	activeForm: FormsType;
@@ -39,6 +44,10 @@ const addingNewUserSlice = createSlice({
 	reducers: {
 		changeActiveForm: (state, action: PayloadAction<FormsType>) => {
 			state.activeForm = action.payload;
+		},
+		onDeleteUser: (state, action) => {
+			userAdapter.removeOne(state, action.payload);
+			usersDel(action.payload);
 		},
 	},
 	extraReducers(builder) {
@@ -80,6 +89,6 @@ export const { selectAll } = userAdapter.getSelectors<RootState>(
 	(state) => state.users
 );
 
-export const { changeActiveForm } = actions;
+export const { changeActiveForm, onDeleteUser } = actions;
 
 export default addingNewUserSlice.reducer;

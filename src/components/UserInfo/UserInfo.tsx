@@ -31,7 +31,6 @@ const UserInfo = () => {
         facebook: 'dsd',
         skills: '',
         hobbies: '',
-
     }
 
     // const onUserUpdate = (user) => {

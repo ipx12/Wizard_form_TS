@@ -113,6 +113,7 @@
             display: flex;
             align-items: center;
             margin-right: 5px;
+            
         }
         &-delete {
             font-family: 'Roboto';
@@ -122,7 +123,11 @@
             display: flex;
             align-items: center;
             cursor: pointer;
+            &:hover {
+                color: green;
+            }
         }
+
     }
     &__nouser {
         height: 430px;
