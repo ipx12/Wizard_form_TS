@@ -22,7 +22,7 @@ const ListOfUsers = () => {
 		firstName: 'Alex',
 		lastName: 'Smith',
 		email: 'ada@dasd.we',
-		adress: '12131231',
+		address: '12131231',
 		gander: 'male',
 		birthDay: 23123123123,
 		company: 'Volvo',

@@ -10,7 +10,7 @@ export interface IProfileFormValues {
     firstName: string;
     lastName: string;
     email: string;
-    adress: string;
+    address: string;
     gander: string;
     birthDay: number; 
 }

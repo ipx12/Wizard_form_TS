@@ -1,11 +1,10 @@
 import { useState, FC } from "react"
 import { useDispatch } from "react-redux";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CSSTransition } from 'react-transition-group';
 
 import { onDeleteUser } from "../Pages/AddingNewUser/addingNewUserSlice";
 
-// import { onDeleteUser } from "../pages/AddingNewUser/addingNewUserSlice";
 import photo from '../../resources/img/Ellipse.png';
 import edit from '../../resources/icons/userList/Edit.png'
 import close from '../../resources/icons/userList/Close.png'
@@ -45,12 +44,11 @@ const UserItem: FC<IUserItemProps>  = (userDate) => {
         <div className={userClass}>
             <div className="wrap">
                 <div className='table-photo'>
-                    {/* <img src={user.photo ? user.photo : photo} alt="Avatar" /> */}
-                    <img src={photo} alt="Avatar" />
+                    <img src={user.photo && user.photo.length ? user.photo : photo} alt="Avatar" />
                 </div>
                 <div className="table__user">
-                    <div className="table__user-name">{user.firstName}</div>
-                    <div className="table__user-title">{user.lastName}</div>
+                    <div className="table__user-name">{user.firstName} {user.lastName}</div>
+                    <div className="table__user-title">{user.userName}</div>
                 </div>
             </div>
             <div className="wrap">
@@ -68,9 +66,9 @@ const UserItem: FC<IUserItemProps>  = (userDate) => {
                     className={deleteConfirm ? 'btns display-none' : 'btns'}
                 >
                     <div className="btns-edit">
-                        {/* <Link to={`/Wizard-form/userdata/${user.id}`}> */}
+                        <Link to={`/info/${user.id}`}>
                             <img src={edit} alt="edit" />
-                        {/* </Link> */}
+                        </Link>
                     </div>
                     <div className="btns-delete"
                             onClick={() => setDeleteConfirm(!deleteConfirm)}

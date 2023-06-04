@@ -79,7 +79,7 @@ const AccauntForm = () => {
     }
 
     const onSubmit = (formData: IAccauntFormValues) => {
-        setValue('id', id);
+        setValue('id', formData.userName);
         formsSet('accaunt', formData);
         dispatch(changeActiveForm('profile'));
         console.log(formData);

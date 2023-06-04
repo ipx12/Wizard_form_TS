@@ -87,7 +87,7 @@ const ProfileForm = () => {
                         {errors.firstName ? <div className='error'>{errors.firstName.message} </div>: null}
                         <div className='label'>
                             <label htmlFor='lastName'>
-                                First Name
+                                Last Name
                             </label>
                             <span>*</span>
                         </div>
@@ -145,10 +145,10 @@ const ProfileForm = () => {
                         </div>
                         <input
                             id='adress'
-                            className={errors.adress ? 'red-border' : ''}
-                            {...register('adress')}
+                            className={errors.address ? 'red-border' : ''}
+                            {...register('address')}
                         />
-                        {errors.adress ? <div className='error'>{errors.adress.message} </div>: null}
+                        {errors.address ? <div className='error'>{errors.address.message} </div>: null}
                         <div className='label'>Gander</div>
                             <div className='radio-group' aria-labelledby="my-radio-group" >
                                 <div className='margin-right'>
