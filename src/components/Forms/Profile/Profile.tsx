@@ -31,7 +31,7 @@ const schema = yup.object({
 				.required('Last Name is a required field'),
 	email: yup.string()
 				.required('Email is a required field'),
-	adress: yup.string()
+	address: yup.string()
 				.required('Adress is a required field'),
 	gander: yup.mixed()
 				.required('Chose gender'),
@@ -184,6 +184,9 @@ const ProfileForm = () => {
                         <button
                             type='button'
                             className='btn-back'
+                            onClick={() => {
+                                dispatch(changeActiveForm('accaunt'))
+                            }}
                         >
                             Back
                         </button>

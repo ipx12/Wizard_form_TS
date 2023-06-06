@@ -62,9 +62,9 @@ const AccauntForm = () => {
         if (files) {
           const fileRef = files[0] || ""
           const fileType: string= fileRef.type || ""
-          console.log("This file upload is of type:",fileType)
-          console.log(fileRef.size <= 1024 * 1024)
-          console.log(SUPORTED_FORMATS.includes(fileType))
+        //   console.log("This file upload is of type:",fileType)
+        //   console.log(fileRef.size <= 1024 * 1024)
+        //   console.log(SUPORTED_FORMATS.includes(fileType))
           const reader = new FileReader()
           reader.readAsBinaryString(fileRef)
           reader.onload=(ev: any) => {
@@ -82,7 +82,6 @@ const AccauntForm = () => {
         setValue('id', formData.userName);
         formsSet('accaunt', formData);
         dispatch(changeActiveForm('profile'));
-        console.log(formData);
     }
 
 	return (

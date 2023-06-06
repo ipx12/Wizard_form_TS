@@ -125,7 +125,12 @@ const CapabilitiesFrom = () => {
                     </div>
                     <button 
                         type='button'
-                        className='btn-back'>
+                        className='btn-back'
+                        onClick={() => {
+                            dispatch(changeActiveForm('contacts'))
+                        }}
+                    >
+                        
                         Back
                     </button>
                     <button className='btn btn-finish' 

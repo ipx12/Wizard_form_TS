@@ -241,6 +241,9 @@ const ContactsFrom = () => {
                         <button 
                             type='button'
                             className='btn-back'
+                            onClick={() => {
+                                dispatch(changeActiveForm('profile'))
+                            }}
                         >
                             Back
                         </button>
