@@ -1,14 +1,17 @@
 import { useSelector, useDispatch } from "react-redux/es/exports";
 import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../store";
 
 
 import './formStage.scss';
+import { FormsType } from "../types/types";
 
 
 const FormStage = () => {
 
     const formsList = ['accaunt', 'profile', 'contacts', 'capabilities'];
 
+    const {activeForm} = useAppSelector(state => state.users)
     
 
 
@@ -37,14 +40,22 @@ const FormStage = () => {
 
     // }
 
+    const activeClass = (formName: FormsType) => {
+        if (formName === activeForm) {
+            return 'stage-name active'
+        } else {
+            return 'stage-name'
+        }
+    }
+
 
     return (
         <div className="container">
             <div className="stage">
-                <div className='stage-name active'>1. Accaunt</div>
-                <div className='stage-name'>2. Profile</div>
-                <div className='stage-name'>3. Contacts</div>
-                <div className='stage-name'>4. Capabilities</div>
+                <div className={activeClass('accaunt')}>1. Accaunt</div>
+                <div className={activeClass('profile')}>2. Profile</div>
+                <div className={activeClass('contacts')}>3. Contacts</div>
+                <div className={activeClass('capabilities')}>4. Capabilities</div>
             </div>
         </div>
     )
