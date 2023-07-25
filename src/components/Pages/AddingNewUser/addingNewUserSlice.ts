@@ -77,7 +77,7 @@ const addingNewUserSlice = createSlice({
 	},
 });
 
-const createUser = (formsData: any): IUser => {
+const createUser = (formsData: IUser[]): IUser => {
 	let user = {};
 	formsData.forEach((form: AllFormsType) => (user = { ...user, ...form }));
 	return user as IUser;
