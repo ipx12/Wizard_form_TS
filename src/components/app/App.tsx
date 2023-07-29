@@ -16,7 +16,7 @@ import { IUser } from "../types/types";
 import AddingNewUser from "../Pages/AddingNewUser/AddingNewUser";
 import List from "../List/UsersList";
 import UserItem from "../UserItem/UserItem";
-import UserEdit from "../Pages/UserProfile/UserProfile";
+import UserEdit from "../Pages/UserEdit/UserEdit";
 import UserInfo from "../UserInfo/UserInfo";
 import UserProfile from "../Pages/UserProfile/UserProfile";
 
@@ -28,7 +28,7 @@ function App() {
 					<Route path="" element={<ListOfUsers />} />
 					<Route path="/useradd" element={<AddingNewUser />} />
 					<Route path="/info/:userId" element={<UserProfile />} />
-					{/* <Route path='/useradd' element={<UserEdit/>}/> */}
+					<Route path="/useredit/:formName" element={<UserEdit />} />
 				</Routes>
 			</BrowserRouter>
 		</div>

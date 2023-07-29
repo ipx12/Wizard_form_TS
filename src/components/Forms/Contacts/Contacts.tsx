@@ -1,6 +1,12 @@
 import { useState } from "react";
-import { useAppDispatch } from "../../../store";
-import { changeActiveForm } from "../../Pages/AddingNewUser/addingNewUserSlice";
+import { useNavigate } from "react-router-dom";
+
+import { useAppDispatch, useAppSelector } from "../../../store";
+import {
+	changeActiveForm,
+	onUserEdit,
+	updateUser,
+} from "../../Pages/AddingNewUser/addingNewUserSlice";
 
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,7 +15,7 @@ import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import InputMask from "react-input-mask";
 
-import { formsSet } from "../../../store/idbStore";
+import { formsSet, usersSet } from "../../../store/idbStore";
 
 import { IContactsFormValue } from "../../types/types";
 
@@ -65,6 +71,9 @@ const ContactsFrom = () => {
 	const [phoneAmount, setPhoneAmout] = useState(1);
 
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+
+	const { editingUser } = useAppSelector((state) => state.users);
 
 	const {
 		control,
@@ -76,10 +85,19 @@ const ContactsFrom = () => {
 		resolver: yupResolver(schema),
 	});
 
+	const isUserEdit = "id" in editingUser;
+	// check existing  property id in editing user, it shows need create new user or update existing user
+
 	const onSubmit = (formData: IContactsFormValue) => {
-		formsSet("contacts", formData);
-		dispatch(changeActiveForm("capabilities"));
-		console.log(formData);
+		if ("id" in editingUser) {
+			usersSet(editingUser.id, { ...editingUser, ...formData });
+			dispatch(updateUser({ ...editingUser, ...formData }));
+			dispatch(onUserEdit({}));
+			navigate(-1);
+		} else {
+			formsSet("contacts", formData);
+			dispatch(changeActiveForm("capabilities"));
+		}
 	};
 
 	const createPhoneNumber = (times: number) => {
@@ -214,6 +232,7 @@ const ContactsFrom = () => {
 								+ add phone number
 							</div>
 							<button
+								hidden={isUserEdit}
 								type="button"
 								className="btn-back"
 								onClick={() => {
@@ -223,7 +242,7 @@ const ContactsFrom = () => {
 								Back
 							</button>
 							<button className="btn" type="submit">
-								Forward'
+								{isUserEdit ? "Save" : "Forward"}
 							</button>
 						</div>
 					</div>

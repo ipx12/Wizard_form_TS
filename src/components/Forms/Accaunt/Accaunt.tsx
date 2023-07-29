@@ -1,36 +1,58 @@
-import avatar from "../../../resources/img/avatar.svg";
-import { useState, useId } from "react";
-
-import { formsSet } from "../../../store/idbStore";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { formsSet, usersSet } from "../../../store/idbStore";
+import { v4 as uuidv4 } from "uuid";
 
 import { IAccauntFormValues } from "../../types/types";
 
-import "./accaunt.scss";
+import avatar from "../../../resources/img/avatar.svg";
 
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { changeActiveForm } from "../../Pages/AddingNewUser/addingNewUserSlice";
-import { useAppDispatch } from "../../../store";
+import {
+	changeActiveForm,
+	selectAll,
+	updateUser,
+	onUserEdit,
+} from "../../Pages/AddingNewUser/addingNewUserSlice";
+import { useAppDispatch, useAppSelector } from "../../../store";
 
-const schema = yup.object().shape({
-	userName: yup.string().required("User Name is required"),
-	// .test(
-	// 	"USERNAME_MATCH",
-	// 	"User name already exist",
-	// 	(value) => !existedUsersName.includes(value) || value === editingUser.userName,
-	// ),
-	password: yup.string().required(),
-	repeatPassword: yup
-		.string()
-		.oneOf([yup.ref("password")], "password don`t mutch"),
-});
+import "./accaunt.scss";
 
 const SUPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
 
 const AccauntForm = () => {
 	const dispatch = useAppDispatch();
-	const id = useId();
+	const navigate = useNavigate();
+
+	const [image, setImage] = useState("");
+	const [imageFormatError, setImageFormatError] = useState("");
+	const [imageSizeError, setImageSizeError] = useState("");
+
+	const { editingUser } = useAppSelector((state) => state.users);
+	const existedUsersName = useAppSelector(selectAll).map(
+		(item) => item.userName
+	);
+
+	const isUserEdit = "id" in editingUser;
+	// check existing  property id in editing user, it shows need create new user or update existing user
+
+	const schema = yup.object().shape({
+		userName: yup
+			.string()
+			.required("User Name is required")
+			.test(
+				"USERNAME_MATCH",
+				"User name already exist",
+				(value) => !existedUsersName.includes(value)
+				// (value) => !existedUsersName.includes(value) || value === editingUser.userName,
+			),
+		password: yup.string().required(),
+		repeatPassword: yup
+			.string()
+			.oneOf([yup.ref("password")], "password don`t mutch"),
+	});
 
 	const {
 		register,
@@ -40,11 +62,6 @@ const AccauntForm = () => {
 	} = useForm<IAccauntFormValues>({
 		resolver: yupResolver(schema),
 	});
-
-	const [image, setImage] = useState("");
-
-	const [imageFormatError, setImageFormatError] = useState("");
-	const [imageSizeError, setImageSizeError] = useState("");
 
 	const imageSizeCheck = (size: number) => {
 		return size <= 1024 * 1024 ? "" : "Photo size must be less 1mb";
@@ -75,9 +92,16 @@ const AccauntForm = () => {
 	}
 
 	const onSubmit = (formData: IAccauntFormValues) => {
-		setValue("id", formData.userName);
-		formsSet("accaunt", formData);
-		dispatch(changeActiveForm("profile"));
+		if ("id" in editingUser) {
+			usersSet(editingUser.id, { ...editingUser, ...formData });
+			dispatch(updateUser({ ...editingUser, ...formData }));
+			dispatch(onUserEdit({}));
+			navigate(-1);
+		} else {
+			setValue("id", uuidv4());
+			formsSet("accaunt", formData);
+			dispatch(changeActiveForm("profile"));
+		}
 	};
 
 	return (
@@ -150,7 +174,7 @@ const AccauntForm = () => {
 								<div className="error">{errors.repeatPassword.message} </div>
 							) : null}
 							<button className="btn btn-next" type="submit">
-								Forward
+								{isUserEdit ? "Save" : "Forward"}
 							</button>
 						</div>
 					</form>

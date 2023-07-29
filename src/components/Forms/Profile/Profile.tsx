@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -9,10 +10,14 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import { IProfileFormValues } from "../../types/types";
 
-import { formsSet } from "../../../store/idbStore";
-import { useAppDispatch } from "../../../store";
+import { formsSet, usersSet } from "../../../store/idbStore";
+import { useAppDispatch, useAppSelector } from "../../../store";
 
-import { changeActiveForm } from "../../Pages/AddingNewUser/addingNewUserSlice";
+import {
+	changeActiveForm,
+	updateUser,
+	onUserEdit,
+} from "../../Pages/AddingNewUser/addingNewUserSlice";
 
 import "./profile.scss";
 
@@ -40,8 +45,13 @@ const schema = yup.object({
 
 const ProfileForm = () => {
 	const [date, setDate] = useState<Date | null>();
+	const { editingUser } = useAppSelector((state) => state.users);
 
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+
+	const isUserEdit = "id" in editingUser;
+	// check existing  property id in editing user, it shows need create new user or update existing user
 
 	const {
 		register,
@@ -53,9 +63,16 @@ const ProfileForm = () => {
 	});
 
 	const onSubmit = (formData: IProfileFormValues) => {
-		formsSet("profile", formData);
-		dispatch(changeActiveForm("contacts"));
-		console.log(formData);
+		if ("id" in editingUser) {
+			// check existing  property id in editing user
+			usersSet(editingUser.id, { ...editingUser, ...formData });
+			dispatch(updateUser({ ...editingUser, ...formData }));
+			dispatch(onUserEdit({}));
+			navigate(-1);
+		} else {
+			formsSet("profile", formData);
+			dispatch(changeActiveForm("contacts"));
+		}
 	};
 
 	return (
@@ -174,6 +191,7 @@ const ProfileForm = () => {
 							<div className="error">{errors.gander.message} </div>
 						) : null}
 						<button
+							hidden={isUserEdit}
 							type="button"
 							className="btn-back"
 							onClick={() => {
@@ -183,7 +201,7 @@ const ProfileForm = () => {
 							Back
 						</button>
 						<button className="btn" type="submit">
-							Forward
+							{isUserEdit ? "Save" : "Forward"}
 						</button>
 					</div>
 				</form>

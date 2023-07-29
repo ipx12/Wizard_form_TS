@@ -18,7 +18,7 @@ interface IInitialState {
 	activeForm: FormsType;
 	formLoadingStatus: string;
 	usersLoadingStatus: string;
-	editingUser: {};
+	editingUser: IUser | {};
 }
 
 const userAdapter = createEntityAdapter<IUser>();
@@ -48,6 +48,12 @@ const addingNewUserSlice = createSlice({
 		onDeleteUser: (state, action) => {
 			userAdapter.removeOne(state, action.payload);
 			usersDel(action.payload);
+		},
+		onUserEdit: (state, action) => {
+			state.editingUser = action.payload;
+		},
+		updateUser: (state, action) => {
+			userAdapter.setOne(state, action.payload);
 		},
 	},
 	extraReducers(builder) {
@@ -89,6 +95,7 @@ export const { selectAll } = userAdapter.getSelectors<RootState>(
 	(state) => state.users
 );
 
-export const { changeActiveForm, onDeleteUser } = actions;
+export const { changeActiveForm, onDeleteUser, onUserEdit, updateUser } =
+	actions;
 
 export default addingNewUserSlice.reducer;

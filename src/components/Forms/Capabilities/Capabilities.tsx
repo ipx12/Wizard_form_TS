@@ -7,11 +7,13 @@ import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import makeAnimated from "react-select/animated";
 
-import { formsSet } from "../../../store/idbStore";
-import { useAppDispatch } from "../../../store";
+import { formsSet, usersSet } from "../../../store/idbStore";
+import { useAppDispatch, useAppSelector } from "../../../store";
 import {
 	changeActiveForm,
 	getAllFormsValues,
+	onUserEdit,
+	updateUser,
 } from "../../Pages/AddingNewUser/addingNewUserSlice";
 
 import { ICapabilitiesFromValue } from "../../types/types";
@@ -72,6 +74,8 @@ const CapabilitiesFrom = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
+	const { editingUser } = useAppSelector((state) => state.users);
+
 	const {
 		control,
 		handleSubmit,
@@ -81,13 +85,22 @@ const CapabilitiesFrom = () => {
 		resolver: yupResolver(schema),
 	});
 
+	const isUserEdit = "id" in editingUser;
+	// check existing  property id in editing user, it shows need create new user or update existing user
+
 	const onSubmit = (formData: ICapabilitiesFromValue) => {
-		dispatch(getAllFormsValues());
-		formsSet("capabilities", formData);
-		dispatch(changeActiveForm("accaunt"));
-		console.log(formData);
-		control._reset();
-		navigate("/");
+		if ("id" in editingUser) {
+			usersSet(editingUser.id, { ...editingUser, ...formData });
+			dispatch(updateUser({ ...editingUser, ...formData }));
+			dispatch(onUserEdit({}));
+			navigate(-1);
+		} else {
+			dispatch(getAllFormsValues());
+			formsSet("capabilities", formData);
+			dispatch(changeActiveForm("accaunt"));
+			control._reset();
+			navigate("/");
+		}
 	};
 
 	return (
@@ -147,6 +160,7 @@ const CapabilitiesFrom = () => {
 							))}
 						</div>
 						<button
+							hidden={isUserEdit}
 							type="button"
 							className="btn-back"
 							onClick={() => {
@@ -160,7 +174,7 @@ const CapabilitiesFrom = () => {
 							type="submit"
 							style={{ background: "#5E97F3" }}
 						>
-							Forward
+							{isUserEdit ? "Save" : "Forward"}
 						</button>
 					</div>
 				</form>
