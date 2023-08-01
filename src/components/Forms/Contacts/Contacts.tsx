@@ -89,7 +89,7 @@ const ContactsFrom = () => {
 	// check existing  property id in editing user, it shows need create new user or update existing user
 
 	const onSubmit = (formData: IContactsFormValue) => {
-		if ("id" in editingUser) {
+		if (isUserEdit) {
 			usersSet(editingUser.id, { ...editingUser, ...formData });
 			dispatch(updateUser({ ...editingUser, ...formData }));
 			dispatch(onUserEdit({}));

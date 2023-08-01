@@ -46,7 +46,6 @@ const AccauntForm = () => {
 				"USERNAME_MATCH",
 				"User name already exist",
 				(value) => !existedUsersName.includes(value)
-				// (value) => !existedUsersName.includes(value) || value === editingUser.userName,
 			),
 		password: yup.string().required(),
 		repeatPassword: yup
@@ -75,9 +74,6 @@ const AccauntForm = () => {
 		if (files) {
 			const fileRef = files[0] || "";
 			const fileType: string = fileRef.type || "";
-			//   console.log("This file upload is of type:",fileType)
-			//   console.log(fileRef.size <= 1024 * 1024)
-			//   console.log(SUPORTED_FORMATS.includes(fileType))
 			const reader = new FileReader();
 			reader.readAsBinaryString(fileRef);
 			reader.onload = (ev: any) => {
@@ -92,7 +88,7 @@ const AccauntForm = () => {
 	}
 
 	const onSubmit = (formData: IAccauntFormValues) => {
-		if ("id" in editingUser) {
+		if (isUserEdit) {
 			usersSet(editingUser.id, { ...editingUser, ...formData });
 			dispatch(updateUser({ ...editingUser, ...formData }));
 			dispatch(onUserEdit({}));

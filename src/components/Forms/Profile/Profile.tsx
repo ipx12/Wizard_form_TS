@@ -63,8 +63,7 @@ const ProfileForm = () => {
 	});
 
 	const onSubmit = (formData: IProfileFormValues) => {
-		if ("id" in editingUser) {
-			// check existing  property id in editing user
+		if (isUserEdit) {
 			usersSet(editingUser.id, { ...editingUser, ...formData });
 			dispatch(updateUser({ ...editingUser, ...formData }));
 			dispatch(onUserEdit({}));
